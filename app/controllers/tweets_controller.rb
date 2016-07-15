@@ -3,6 +3,8 @@ class TweetsController < ApplicationController
   
   def index
     @tweets = Tweet.all
+    @tweets = Tweet.order(:created_at).reverse_order
+    
     if params[:back]
       @tweet = Tweet.new(tweets_params)
     else
