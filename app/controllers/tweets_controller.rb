@@ -3,11 +3,11 @@ class TweetsController < ApplicationController
   
   def index
     @tweets = Tweet.all
-    @tweet = Tweet.new
-  end
-  
-  def new
-    @tweet = Tweet.new
+    if params[:back]
+      @tweet = Tweet.new(tweets_params)
+    else
+      @tweet = Tweet.new
+    end
   end
   
   def create
@@ -30,6 +30,12 @@ class TweetsController < ApplicationController
   def destroy
     @tweet.destroy
     redirect_to tweets_path, notice: "投稿を削除しました！"
+  end
+  
+  def confirm
+    @tweets = Tweet.all
+    @tweet = Tweet.new(tweets_params)
+    render :index if @tweet.invalid?
   end
   
   private
